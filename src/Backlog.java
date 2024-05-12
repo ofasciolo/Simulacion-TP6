@@ -56,7 +56,6 @@ public class Backlog {
     }
 
     public static void calcularResultados(){
-        
     }
 
     public static void imprimirResultados(){

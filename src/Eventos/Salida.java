@@ -2,29 +2,34 @@ package Eventos;
 
 import java.util.ArrayList;
 
+import Models.Desarrollador;
+
 public class Salida extends Evento {
 
     public Salida(double instante) {
         super(instante);
-        //TODO Auto-generated constructor stub
     }
 
     @Override
     public void determinarEvento() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'determinarEvento'");
+        Desarrollador desarrollador = simulacion.getProximoDesarrolladorLibre();
+        desarrollador.tomarTicket(simulacion.getNextTicket(), instante);
     }
 
     @Override
     public ArrayList<Evento> eventosFuturosNoCondicionados() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'eventosFuturosNoCondicionados'");
+        return new ArrayList<Evento>();
     }
 
     @Override
     public ArrayList<Evento> eventosFuturosCondicionados() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'eventosFuturosCondicionados'");
+        if(simulacion.sumNs() >= simulacion.getN()) { 
+            double TA = FDPS.TA.calculate();
+            return new ArrayList<Evento>() {{
+                add(new Salida(instante + TA));
+            }};
+        }
+        return new ArrayList<Evento>();
     }
     
 }

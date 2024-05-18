@@ -1,5 +1,10 @@
 package Eventos;
 import java.util.ArrayList;
+import java.util.Date;
+
+import Models.Ticket;
+import Models.Enum.Priority;
+import Models.Enum.Status;
 
 public class Llegada extends Evento {
 
@@ -9,8 +14,21 @@ public class Llegada extends Evento {
 
     @Override
     public void determinarEvento() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'determinarEvento'");
+        Ticket nuevoTicket = new Ticket();
+        nuevoTicket.setCreatedDate(new Date());
+        nuevoTicket.setUpdatedDate(new Date());
+        nuevoTicket.setLastViewedDate(new Date());
+        nuevoTicket.setResolutionDate(new Date());
+        nuevoTicket.setStatus(Status.OPEN);
+        // TODO: Cargar la estimacion del ticket con una FDP
+        // nuevoTicket.setVotes();
+
+        // TODO: Elegir un criterio para asignar prioridad, por ejemplo: ver el % de tickets de cada status en el dataset
+        double random = Math.random();
+        Priority priority = (random < 0.3) ? Priority.HIGH : (random < 0.6) ? Priority.MEDIUM : Priority.LOW;
+        
+        nuevoTicket.setPriority(priority);
+        simulacion.getByPriority(priority).add(nuevoTicket);
     }
 
     @Override

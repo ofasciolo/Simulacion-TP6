@@ -2,9 +2,12 @@ package Repository;
 
 import java.util.ArrayList;
 import java.util.Queue;
+import java.util.LinkedList;
 
 import Eventos.Evento;
+import Models.Desarrollador;
 import Models.Ticket;
+import Models.Enum.Priority;
 
 public class State {
     private static State instance;
@@ -17,12 +20,14 @@ public class State {
 
     // Variables de control
     private int N = 10; // Numero de desarrolladores
+    private double TiempoDeActualizacion = 20.0; // Valor en minutos
     
     // Variables de estado
-    private Queue<Ticket> NSHT; // Numero de tickets en la cola de mas alta prioridad
-    private Queue<Ticket> NSH; // Numero de tickets en la cola de alta prioridad
-    private Queue<Ticket> NSL; // Numero de tickets en la cola de baja prioridad
-    private Queue<Ticket> NSM; // Numero de tickets en la cola de media prioridad
+    private Queue<Ticket> NSHT; // La cola de mas alta prioridad
+    private Queue<Ticket> NSH; // La cola de alta prioridad
+    private Queue<Ticket> NSL; // La cola de baja prioridad
+    private Queue<Ticket> NSM; // La cola de media prioridad
+    private ArrayList<Desarrollador> desarrolladores;
 
     // Variables para usar durante la corrida
     private int i;
@@ -35,6 +40,17 @@ public class State {
     
     private State() {
         eventosFuturos = new ArrayList<>();
+        // Cargo las colas
+        NSHT = new LinkedList<Ticket>();
+        NSH = new LinkedList<Ticket>();
+        NSL = new LinkedList<Ticket>();
+        NSM = new LinkedList<Ticket>();
+        // Creo los desarrolladores en base a N (Cantidad de desarrolladores)
+        desarrolladores = new ArrayList<>();
+        for (int i = 0; i < N; i++) {
+            desarrolladores.add(new Desarrollador());
+        }
+
     }
     
     public static State getInstance() {
@@ -145,6 +161,10 @@ public class State {
         return N;
     }
 
+    public double getTiempoDeActualizacion() {
+        return TiempoDeActualizacion;
+    }
+
     // More complex methods
     public Ticket getNextTicket() {
         Ticket nextTicket = null;
@@ -178,5 +198,36 @@ public class State {
         }
         
         return minIndex;
+    }
+
+    public void actualizarTPS(int puesto, double tiempo) {
+        TPS[puesto] = tiempo;
+    }
+
+    public Queue<Ticket> getByPriority(Priority priority) {
+        switch (priority) {
+            case HIGH:
+                return NSH;
+            case MEDIUM:
+                return NSM;
+            case LOW:
+                return NSL;
+            default:
+                return null;
+        }
+    }
+
+    public Desarrollador getProximoDesarrolladorLibre() {
+        Desarrollador proximoDesarrolladorLibre = null;
+        double minTPS = desarrolladores.get(0).TPS;
+        
+        for (Desarrollador desarrollador : desarrolladores) {
+            if (desarrollador.TPS < minTPS) {
+                minTPS = desarrollador.TPS;
+                proximoDesarrolladorLibre = desarrollador;
+            }
+        }
+        
+        return proximoDesarrolladorLibre;
     }
 }

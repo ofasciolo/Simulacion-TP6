@@ -59,6 +59,6 @@ public class Backlog {
     }
 
     public static void imprimirResultados(){
-        
+        // Creo que aca se calcula el promedio de desfasaje
     }
 }

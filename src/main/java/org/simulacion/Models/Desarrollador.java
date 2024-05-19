@@ -1,9 +1,9 @@
-package Models;
+package org.simulacion.Models;
 
 import java.util.Objects;
 import java.util.Queue;
 
-import Models.Enum.Status;
+import org.simulacion.Models.Enum.Status;
 
 import java.util.Date;
 import java.util.LinkedList;

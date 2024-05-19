@@ -1,4 +1,4 @@
-package Models.Enum;
+package org.simulacion.Models.Enum;
 
 public enum Status {
     OPEN, IN_PROGRESS, CLOSED;

@@ -1,7 +1,11 @@
-import Eventos.Evento;
-import Models.Simulacion;
+package org.simulacion;
+
+import org.simulacion.Eventos.Evento;
+import org.simulacion.Models.Simulacion;
+import org.simulacion.Models.Ticket;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class Backlog {
 
@@ -17,7 +21,7 @@ public class Backlog {
             avanzarTiempoHasta(eventoActual.getInstante());
             eventoActual.determinarEvento();
             eventosFuturos.addAll(eventoActual.eventosFuturosNoCondicionados());
-            // eventoActual.actualizarVariableEstado();
+            actualizarVariableEstado();
             eventosFuturos.addAll(eventoActual.eventosFuturosCondicionados());
             imprimirInformacionActual();
         }
@@ -26,11 +30,21 @@ public class Backlog {
     }
 
     public static void imprimirInformacionActual(){
-        
+
     }
 
     public static void actualizarVariableEstado(){
+        List<Ticket> eventosLowViejos = simulacion.getTicketsViejos(simulacion.getNSL());
+        List<Ticket> eventosMediumViejos = simulacion.getTicketsViejos(simulacion.getNSM());
+        List<Ticket> eventosHighViejos = simulacion.getTicketsViejos(simulacion.getNSH());
 
+        simulacion.sacarLowTickets(eventosLowViejos);
+        simulacion.sacarMediumTickets(eventosMediumViejos);
+        simulacion.sacarHighTickets(eventosHighViejos);
+
+        simulacion.getNSM().addAll(eventosLowViejos);
+        simulacion.getNSH().addAll(eventosMediumViejos);
+        simulacion.getNSHT().addAll(eventosHighViejos);
     }
 
     public static void fijarCondicionesIniciales(){
@@ -58,9 +72,13 @@ public class Backlog {
     }
 
     public static void calcularResultados(){
+
     }
 
     public static void imprimirResultados(){
         // Creo que aca se calcula el promedio de desfasaje
+        System.out.println("Tiempo promedio de permanencia en el sistema de los tickets (PPS): " + simulacion.getSPS());
+        System.out.println("Promedio de tickets resueltos por semana (PTS): " + simulacion.getSTRS());
+        System.out.println("Promedio de desfase de ticket (PDT): " + simulacion.getSTD());
     }
 }

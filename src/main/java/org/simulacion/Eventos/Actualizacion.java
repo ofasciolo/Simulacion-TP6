@@ -1,6 +1,6 @@
-package Eventos;
+package org.simulacion.Eventos;
 
-import Models.Simulacion;
+import org.simulacion.Models.Simulacion;
 
 import java.util.ArrayList;
 

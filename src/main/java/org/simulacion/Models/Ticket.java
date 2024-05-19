@@ -1,7 +1,7 @@
-package Models;
+package org.simulacion.Models;
 
-import Models.Enum.Priority;
-import Models.Enum.Status;
+import org.simulacion.Models.Enum.Priority;
+import org.simulacion.Models.Enum.Status;
 
 import java.util.Date;
 

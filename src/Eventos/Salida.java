@@ -3,6 +3,7 @@ package Eventos;
 import java.util.ArrayList;
 
 import Models.Desarrollador;
+import Models.Simulacion;
 
 public class Salida extends Evento {
 
@@ -12,8 +13,8 @@ public class Salida extends Evento {
 
     @Override
     public void determinarEvento() {
-        Desarrollador desarrollador = simulacion.getProximoDesarrolladorLibre();
-        desarrollador.tomarTicket(simulacion.getNextTicket(), instante);
+        Desarrollador desarrollador = Simulacion.getInstance().getProximoDesarrolladorLibre();
+        desarrollador.tomarTicket(Simulacion.getInstance().getNextTicket(), getInstante());
     }
 
     @Override
@@ -23,10 +24,10 @@ public class Salida extends Evento {
 
     @Override
     public ArrayList<Evento> eventosFuturosCondicionados() {
-        if(simulacion.sumNs() >= simulacion.getN()) { 
+        if(Simulacion.getInstance().sumNs() >= Simulacion.getInstance().getVariableControl()) {
             double TA = FDPS.TA.calculate();
             return new ArrayList<Evento>() {{
-                add(new Salida(instante + TA));
+                add(new Salida(getInstante() + TA));
             }};
         }
         return new ArrayList<Evento>();

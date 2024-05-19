@@ -1,5 +1,5 @@
 import Eventos.Evento;
-import Repository.State;
+import Models.Simulacion;
 
 import java.util.ArrayList;
 
@@ -7,14 +7,14 @@ public class Backlog {
 
     public static double instanteFinal;
     public static Evento eventoActual;
-    private static State simulacion = State.getInstance();
-    public static ArrayList<Evento> eventosFuturos = State.eventosFuturos;
+    private static Simulacion simulacion = Simulacion.getInstance();
+    public static ArrayList<Evento> eventosFuturos = Simulacion.eventosFuturos;
     
     public static void main (String []args ){
         fijarCondicionesIniciales();
         while(!isOver()) {
             eventoActual = getProximoEvento();
-            avanzarTiempoHasta(eventoActual.instante);
+            avanzarTiempoHasta(eventoActual.getInstante());
             eventoActual.determinarEvento();
             eventosFuturos.addAll(eventoActual.eventosFuturosNoCondicionados());
             // eventoActual.actualizarVariableEstado();
@@ -34,7 +34,9 @@ public class Backlog {
     }
 
     public static void fijarCondicionesIniciales(){
-        
+        simulacion.setVariableControl(10);
+        simulacion.setTiempoDeActualizacion(4320.0); //3 dias
+        simulacion.setValorEstimacion(480); //8 horas (no habiles necesariamente)
     }
 
     public static Evento getProximoEvento(){
@@ -44,7 +46,7 @@ public class Backlog {
     }
 
     public static void avanzarTiempoHasta(double instante){
-        simulacion.setTiempo(instante);
+        simulacion.setTiempoActual(instante);
     }
 
     public static Evento elMenor(Evento anterior, Evento actual){
@@ -52,7 +54,7 @@ public class Backlog {
     }
 
     public static boolean isOver(){
-        return simulacion.getTiempo() >= instanteFinal;
+        return simulacion.getTiempoActual() >= instanteFinal;
     }
 
     public static void calcularResultados(){

@@ -2,16 +2,14 @@ package Eventos;
 
 import java.util.ArrayList;
 
-import Repository.State;
+import Models.Simulacion;
 
 public abstract class Evento {
-    public double instante;
-    protected String nombre;
-    protected State simulacion;
+    private double instante;
+    private String nombre;
 
     public Evento(double instante) {
         this.instante = instante;
-        this.simulacion = State.getInstance();
     }
     public double getInstante(){
         return instante;

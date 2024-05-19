@@ -15,10 +15,11 @@ public class Ticket {
     private Date updatedDate;
     private Date lastViewedDate;
     private Date resolutionDate;
+    private Date firstResponseDate;
     private String components;
     private Integer votes;
     private String severity;
-    private String user;
+
 
     public String getSummary() {
         return summary;
@@ -92,6 +93,14 @@ public class Ticket {
         this.resolutionDate = resolutionDate;
     }
 
+    public Date getFirstResponseDate() {
+        return firstResponseDate;
+    }
+
+    public void setFirstResponseDate(Date firstResponseDate) {
+        this.firstResponseDate = firstResponseDate;
+    }
+
     public String getComponents() {
         return components;
     }
@@ -114,13 +123,5 @@ public class Ticket {
 
     public void setSeverity(String severity) {
         this.severity = severity;
-    }
-
-    public String getUser() {
-        return user;
-    }
-
-    public void setUser(String user) {
-        this.user = user;
     }
 }

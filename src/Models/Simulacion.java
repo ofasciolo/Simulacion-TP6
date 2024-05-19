@@ -1,26 +1,25 @@
-package Repository;
+package Models;
 
 import java.util.ArrayList;
 import java.util.Queue;
 import java.util.LinkedList;
 
 import Eventos.Evento;
-import Models.Desarrollador;
-import Models.Ticket;
 import Models.Enum.Priority;
 
-public class State {
-    private static State instance;
+public class Simulacion {
+    private static Simulacion instance;
 
     // Variables para el manejo de eventos
     public static ArrayList<Evento> eventosFuturos;
     protected double TPLL; // Tiempo entre llegadas
     protected double[] TPS; // Tiempo de servicio
-    private double tiempo;
+    private double tiempoActual;
 
     // Variables de control
-    private int N = 10; // Numero de desarrolladores
-    private double TiempoDeActualizacion = 20.0; // Valor en minutos
+    private int N; // Numero de desarrolladores
+    private double TiempoDeActualizacion; // Valor en minutos
+    private int valorEstimacion; //Valor en minutos
     
     // Variables de estado
     private Queue<Ticket> NSHT; // La cola de mas alta prioridad
@@ -30,15 +29,12 @@ public class State {
     private ArrayList<Desarrollador> desarrolladores;
 
     // Variables para usar durante la corrida
-    private int i;
-    private int j;
-    private int k;
     private int NT; // Numero total de tickets
     private double SPS; // Sumatoria de permanencia en el sistema
     private int STRS; // Sumatoria de tickets resueltos por semana
     private int STD; // Sumatoria de desfase de tickets
     
-    private State() {
+    private Simulacion() {
         eventosFuturos = new ArrayList<>();
         // Cargo las colas
         NSHT = new LinkedList<Ticket>();
@@ -47,15 +43,11 @@ public class State {
         NSM = new LinkedList<Ticket>();
         // Creo los desarrolladores en base a N (Cantidad de desarrolladores)
         desarrolladores = new ArrayList<>();
-        for (int i = 0; i < N; i++) {
-            desarrolladores.add(new Desarrollador());
-        }
-
     }
     
-    public static State getInstance() {
+    public static Simulacion getInstance() {
         if (instance == null) {
-            instance = new State();
+            instance = new Simulacion();
         }
         return instance;
     }
@@ -93,30 +85,6 @@ public class State {
         this.NSM = NSM;
     }
     
-    public int getI() {
-        return i;
-    }
-    
-    public void setI(int i) {
-        this.i = i;
-    }
-    
-    public int getJ() {
-        return j;
-    }
-    
-    public void setJ(int j) {
-        this.j = j;
-    }
-    
-    public int getK() {
-        return k;
-    }
-    
-    public void setK(int k) {
-        this.k = k;
-    }
-    
     public int getNT() {
         return NT;
     }
@@ -149,20 +117,39 @@ public class State {
         this.STD = STD;
     }
 
-    public double getTiempo() {
-        return tiempo;
+    public double getTiempoActual() {
+        return tiempoActual;
     }
 
-    public void setTiempo(double tiempo) {
-        this.tiempo = tiempo;
+    public void setTiempoActual(double tiempoActual) {
+        this.tiempoActual = tiempoActual;
     }
 
-    public int getN() {
+    public int getVariableControl() {
         return N;
+    }
+    public void setVariableControl(int N) {
+        this.N = N;
+        desarrolladores = new ArrayList<>();
+        for (int i = 0; i < N; i++) {
+            desarrolladores.add(new Desarrollador());
+        }
     }
 
     public double getTiempoDeActualizacion() {
         return TiempoDeActualizacion;
+    }
+
+    public void setTiempoDeActualizacion(double tiempoDeActualizacion) {
+        TiempoDeActualizacion = tiempoDeActualizacion;
+    }
+
+    public int getValorEstimacion() {
+        return valorEstimacion;
+    }
+
+    public void setValorEstimacion(int valorEstimacion) {
+        this.valorEstimacion = valorEstimacion;
     }
 
     // More complex methods
@@ -202,19 +189,6 @@ public class State {
 
     public void actualizarTPS(int puesto, double tiempo) {
         TPS[puesto] = tiempo;
-    }
-
-    public Queue<Ticket> getByPriority(Priority priority) {
-        switch (priority) {
-            case HIGH:
-                return NSH;
-            case MEDIUM:
-                return NSM;
-            case LOW:
-                return NSL;
-            default:
-                return null;
-        }
     }
 
     public Desarrollador getProximoDesarrolladorLibre() {

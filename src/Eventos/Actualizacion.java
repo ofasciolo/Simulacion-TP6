@@ -1,5 +1,7 @@
 package Eventos;
 
+import Models.Simulacion;
+
 import java.util.ArrayList;
 
 public class Actualizacion extends Evento {
@@ -18,7 +20,7 @@ public class Actualizacion extends Evento {
 
     @Override
     public ArrayList<Evento> eventosFuturosNoCondicionados() {
-        Actualizacion nuevActualizacion = new Actualizacion(instante + simulacion.getTiempoDeActualizacion());
+        Actualizacion nuevActualizacion = new Actualizacion(getInstante() + Simulacion.getInstance().getTiempoDeActualizacion());
         return new ArrayList<Evento>() {{
             add(nuevActualizacion);
         }};

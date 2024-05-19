@@ -22,6 +22,9 @@ public class Llegada extends Evento {
         nuevoTicket.setUpdatedDate(new Date());
         nuevoTicket.setLastViewedDate(new Date());
         nuevoTicket.setStatus(Status.OPEN);
+
+        double randomVote = 1 + Math.random()*39;
+        nuevoTicket.setVotes((int) randomVote);
         // TODO: Cargar la estimacion del ticket con una FDP
         // nuevoTicket.setVotes();
 

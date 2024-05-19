@@ -1,6 +1,7 @@
 package org.simulacion;
 
 import org.simulacion.Eventos.Evento;
+import org.simulacion.Eventos.Llegada;
 import org.simulacion.Models.Simulacion;
 import org.simulacion.Models.Ticket;
 
@@ -9,13 +10,14 @@ import java.util.List;
 
 public class Backlog {
 
-    public static double instanteFinal;
+    public static double instanteFinal = 60;
     public static Evento eventoActual;
     private static Simulacion simulacion = Simulacion.getInstance();
     public static ArrayList<Evento> eventosFuturos = Simulacion.eventosFuturos;
     
     public static void main (String []args ){
         fijarCondicionesIniciales();
+        iniciarSimulacion();
         while(!isOver()) {
             eventoActual = getProximoEvento();
             avanzarTiempoHasta(eventoActual.getInstante());
@@ -27,6 +29,11 @@ public class Backlog {
         }
         calcularResultados();
         imprimirResultados();
+    }
+
+    public static void iniciarSimulacion(){
+        Llegada llegada = new Llegada(0);
+        simulacion.eventosFuturos.add(llegada);
     }
 
     public static void imprimirInformacionActual(){

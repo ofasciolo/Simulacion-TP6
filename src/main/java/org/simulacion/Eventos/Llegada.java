@@ -1,11 +1,13 @@
-package Eventos;
+package org.simulacion.Eventos;
 import java.util.ArrayList;
 import java.util.Date;
 
-import Models.Simulacion;
-import Models.Ticket;
-import Models.Enum.Priority;
-import Models.Enum.Status;
+import org.simulacion.FDPS.IA;
+import org.simulacion.FDPS.TR;
+import org.simulacion.Models.Simulacion;
+import org.simulacion.Models.Ticket;
+import org.simulacion.Models.Enum.Priority;
+import org.simulacion.Models.Enum.Status;
 
 public class Llegada extends Evento {
 
@@ -33,21 +35,30 @@ public class Llegada extends Evento {
 
     @Override
     public ArrayList<Evento> eventosFuturosNoCondicionados() {
-        double IA = FDPS.IA.calculate();
-        Llegada nuevaLlegada = new Llegada(getInstante() + IA);
-        return new ArrayList<Evento>() {{
-            add(nuevaLlegada);
-        }};
+        try{
+            double intervaloArribos = IA.calculate();
+            Llegada nuevaLlegada = new Llegada(getInstante() + intervaloArribos);
+            return new ArrayList<Evento>() {{
+                add(nuevaLlegada);
+            }};
+        }catch (Exception e){
+
+        }
+        return new ArrayList<Evento>();
     }
 
     @Override
     public ArrayList<Evento> eventosFuturosCondicionados() {
         // Si pasa esto debo generar una nueva salida
-        if(Simulacion.getInstance().sumNs() <= Simulacion.getInstance().getVariableControl()) {
-            double TA = FDPS.TA.calculate();
-            return new ArrayList<Evento>() {{
-                add(new Salida(getInstante() + TA));
-            }};
+        try{
+            if(Simulacion.getInstance().sumNs() <= Simulacion.getInstance().getVariableControl()) {
+                double tiempoResolucion = TR.calculate();
+                return new ArrayList<Evento>() {{
+                    add(new Salida(getInstante() + tiempoResolucion));
+                }};
+            }
+        }catch (Exception ex){
+
         }
         return new ArrayList<Evento>();
     }

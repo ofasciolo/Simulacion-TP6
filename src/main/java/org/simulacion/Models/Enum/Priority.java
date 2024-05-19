@@ -1,7 +1,7 @@
-package Models.Enum;
+package org.simulacion.Models.Enum;
 
-import Models.Simulacion;
-import Models.Ticket;
+import org.simulacion.Models.Simulacion;
+import org.simulacion.Models.Ticket;
 
 import java.util.Queue;
 

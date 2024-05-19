@@ -1,8 +1,6 @@
-package Eventos;
+package org.simulacion.Eventos;
 
 import java.util.ArrayList;
-
-import Models.Simulacion;
 
 public abstract class Evento {
     private double instante;

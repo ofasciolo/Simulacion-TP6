@@ -1,9 +1,10 @@
-package Eventos;
+package org.simulacion.Eventos;
 
 import java.util.ArrayList;
 
-import Models.Desarrollador;
-import Models.Simulacion;
+import org.simulacion.FDPS.TR;
+import org.simulacion.Models.Desarrollador;
+import org.simulacion.Models.Simulacion;
 
 public class Salida extends Evento {
 
@@ -24,12 +25,14 @@ public class Salida extends Evento {
 
     @Override
     public ArrayList<Evento> eventosFuturosCondicionados() {
-        if(Simulacion.getInstance().sumNs() >= Simulacion.getInstance().getVariableControl()) {
-            double TA = FDPS.TA.calculate();
-            return new ArrayList<Evento>() {{
-                add(new Salida(getInstante() + TA));
-            }};
-        }
+        try{
+            if(Simulacion.getInstance().sumNs() >= Simulacion.getInstance().getVariableControl()) {
+                double tiempoResolucion = TR.calculate();
+                return new ArrayList<Evento>() {{
+                    add(new Salida(getInstante() + tiempoResolucion));
+                }};
+            }
+        }catch(Exception e){}
         return new ArrayList<Evento>();
     }
     

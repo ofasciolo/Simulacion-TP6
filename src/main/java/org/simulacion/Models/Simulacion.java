@@ -1,11 +1,10 @@
-package Models;
+package org.simulacion.Models;
 
-import java.util.ArrayList;
-import java.util.Queue;
-import java.util.LinkedList;
+import org.simulacion.Eventos.Evento;
 
-import Eventos.Evento;
-import Models.Enum.Priority;
+import java.util.*;
+import java.util.concurrent.TimeUnit;
+import java.util.stream.Collectors;
 
 public class Simulacion {
     private static Simulacion instance;
@@ -203,5 +202,29 @@ public class Simulacion {
         }
         
         return proximoDesarrolladorLibre;
+    }
+
+    public List<Ticket> getTicketsViejos(Queue<Ticket> colaPrioridad){
+        List<Ticket> ticketsViejos = colaPrioridad.stream().filter(ticket -> isOld(ticket)).collect(Collectors.toList());
+        return ticketsViejos;
+    }
+
+    private boolean isOld(Ticket ticket) {
+        long diffInMillies = Math.abs(new Date().getTime() - ticket.getCreatedDate().getTime());
+        long diff = TimeUnit.MINUTES.convert(diffInMillies, TimeUnit.MILLISECONDS);
+        return diff >= (long)ticket.getVotes()*valorEstimacion;
+    }
+
+    public void sacarLowTickets(List<Ticket> ticketsViejos){
+        List<Ticket> ticketsLeft = NSL.stream().filter(ticket -> !ticketsViejos.contains(ticket)).collect(Collectors.toList());
+        NSL = new LinkedList(ticketsLeft);
+    }
+    public void sacarMediumTickets(List<Ticket> ticketsViejos){
+        List<Ticket> ticketsLeft = NSM.stream().filter(ticket -> !ticketsViejos.contains(ticket)).collect(Collectors.toList());
+        NSM = new LinkedList(ticketsLeft);
+    }
+    public void sacarHighTickets(List<Ticket> ticketsViejos){
+        List<Ticket> ticketsLeft = NSH.stream().filter(ticket -> !ticketsViejos.contains(ticket)).collect(Collectors.toList());
+        NSH = new LinkedList(ticketsLeft);
     }
 }

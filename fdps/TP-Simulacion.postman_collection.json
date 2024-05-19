@@ -1,0 +1,46 @@
+{
+	"info": {
+		"_postman_id": "aec8ba26-2c54-486a-bf0a-859e50011979",
+		"name": "TP-Simulacion",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json",
+		"_exporter_id": "29897104"
+	},
+	"item": [
+		{
+			"name": "IA",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": "127.0.0.1:5000/IA"
+			},
+			"response": []
+		},
+		{
+			"name": "TB",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": "127.0.0.1:5000/TB"
+			},
+			"response": []
+		},
+		{
+			"name": "TR",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": "127.0.0.1:5000/TR"
+			},
+			"response": []
+		},
+		{
+			"name": "PT",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": "127.0.0.1:5000/PT"
+			},
+			"response": []
+		}
+	]
+}

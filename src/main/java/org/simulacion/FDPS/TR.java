@@ -25,6 +25,7 @@ public class TR {
 
         Response tiempoResolucion = objectMapper.readValue(response.body(), new TypeReference<Response>(){});
 
-        return tiempoResolucion.getValue();
+        // TODO: Fix this func
+        return Math.abs(tiempoResolucion.getValue());
     }
 }

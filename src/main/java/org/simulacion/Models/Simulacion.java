@@ -195,7 +195,7 @@ public class Simulacion {
         double minTPS = desarrolladores.get(0).TPS;
         
         for (Desarrollador desarrollador : desarrolladores) {
-            if (desarrollador.TPS < minTPS) {
+            if (desarrollador.TPS <= minTPS) {
                 minTPS = desarrollador.TPS;
                 proximoDesarrolladorLibre = desarrollador;
             }
@@ -205,14 +205,8 @@ public class Simulacion {
     }
 
     public List<Ticket> getTicketsViejos(Queue<Ticket> colaPrioridad){
-        List<Ticket> ticketsViejos = colaPrioridad.stream().filter(ticket -> isOld(ticket)).collect(Collectors.toList());
+        List<Ticket> ticketsViejos = colaPrioridad.stream().filter(ticket -> ticket.shouldUPPriority()).collect(Collectors.toList());
         return ticketsViejos;
-    }
-
-    private boolean isOld(Ticket ticket) {
-        long diffInMillies = Math.abs(new Date().getTime() - ticket.getCreatedDate().getTime());
-        long diff = TimeUnit.MINUTES.convert(diffInMillies, TimeUnit.MILLISECONDS);
-        return diff >= (long)ticket.getVotes()*valorEstimacion;
     }
 
     public void sacarLowTickets(List<Ticket> ticketsViejos){
@@ -226,5 +220,9 @@ public class Simulacion {
     public void sacarHighTickets(List<Ticket> ticketsViejos){
         List<Ticket> ticketsLeft = NSH.stream().filter(ticket -> !ticketsViejos.contains(ticket)).collect(Collectors.toList());
         NSH = new LinkedList(ticketsLeft);
+    }
+
+    public void setQueue(Queue<Ticket> queue, List<Ticket> tickets){
+        queue = new LinkedList(tickets);
     }
 }

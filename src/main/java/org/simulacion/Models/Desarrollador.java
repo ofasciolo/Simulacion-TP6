@@ -5,7 +5,6 @@ import java.util.Queue;
 
 import org.simulacion.Models.Enum.Status;
 
-import java.util.Date;
 import java.util.LinkedList;
 
 public class Desarrollador {
@@ -20,21 +19,18 @@ public class Desarrollador {
     }
 
     public void tomarTicket(Ticket ticket, double nuevoTPS) {
+        double tiempoActual = Simulacion.getInstance().getTiempoActual();
         if(Objects.nonNull(lastTicket)){
+
             lastTicket.setStatus(Status.CLOSED);
-            ticket.setUpdatedDate(new Date());
-            ticket.setLastViewedDate(new Date());
-            ticket.setResolutionDate(new Date());
+            ticket.setResolvedTime(tiempoActual);
             Resueltos.add(lastTicket);
         }
 
         TPS = nuevoTPS;
 
-        // TODO: Revisar si estar fechas estan bien, las puso copilot
         ticket.setStatus(Status.IN_PROGRESS);
-        ticket.setUpdatedDate(new Date());
-        ticket.setLastViewedDate(new Date());
-        ticket.setFirstResponseDate(new Date());
+        ticket.setReadyTime(tiempoActual);
         lastTicket = ticket;
     }
 

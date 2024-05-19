@@ -9,11 +9,11 @@ import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 
-public class IA {
+public class PT {
 
     public static double calculate() throws IOException, InterruptedException {
         HttpClient httpClient = HttpClient.newBuilder().build();
-        URI url = URI.create("http://127.0.0.1:5000/IA");
+        URI url = URI.create("http://127.0.0.1:5000/PT");
 
         HttpRequest request = HttpRequest.newBuilder()
                 .uri(url)
@@ -24,9 +24,9 @@ public class IA {
         HttpResponse<String> response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
         ObjectMapper objectMapper = new ObjectMapper();
 
-        Response intervaloArribos = objectMapper.readValue(response.body(), new TypeReference<Response>(){});
+        Response puntajeTicket = objectMapper.readValue(response.body(), new TypeReference<Response>(){});
 
-        return intervaloArribos.getValue();
+        return puntajeTicket.getValue();
     }
 
 }

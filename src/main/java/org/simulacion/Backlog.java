@@ -3,29 +3,30 @@ package org.simulacion;
 import org.simulacion.Eventos.Evento;
 import org.simulacion.Eventos.Llegada;
 import org.simulacion.Models.Simulacion;
-import org.simulacion.Models.Ticket;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class Backlog {
 
-    public static double instanteFinal = 60;
+    public static double instanteFinal = 60*24; //60*24*365*2;
     public static Evento eventoActual;
     private static Simulacion simulacion = Simulacion.getInstance();
     public static ArrayList<Evento> eventosFuturos = Simulacion.eventosFuturos;
+
+    private static int idEvento = 0;
     
     public static void main (String []args ){
         fijarCondicionesIniciales();
         iniciarSimulacion();
         while(!isOver()) {
             eventoActual = getProximoEvento();
+            System.out.println("Evento actual: " + eventoActual.toString());
             avanzarTiempoHasta(eventoActual.getInstante());
-            eventoActual.determinarEvento();
             eventosFuturos.addAll(eventoActual.eventosFuturosNoCondicionados());
-            actualizarVariableEstado();
+            eventoActual.actualizarVectorDeEstado();
             eventosFuturos.addAll(eventoActual.eventosFuturosCondicionados());
             imprimirInformacionActual();
+            idEvento++;
         }
         calcularResultados();
         imprimirResultados();
@@ -37,21 +38,15 @@ public class Backlog {
     }
 
     public static void imprimirInformacionActual(){
-
-    }
-
-    public static void actualizarVariableEstado(){
-        List<Ticket> eventosLowViejos = simulacion.getTicketsViejos(simulacion.getNSL());
-        List<Ticket> eventosMediumViejos = simulacion.getTicketsViejos(simulacion.getNSM());
-        List<Ticket> eventosHighViejos = simulacion.getTicketsViejos(simulacion.getNSH());
-
-        simulacion.sacarLowTickets(eventosLowViejos);
-        simulacion.sacarMediumTickets(eventosMediumViejos);
-        simulacion.sacarHighTickets(eventosHighViejos);
-
-        simulacion.getNSM().addAll(eventosLowViejos);
-        simulacion.getNSH().addAll(eventosMediumViejos);
-        simulacion.getNSHT().addAll(eventosHighViejos);
+        // Aca imprimimos durante la corrida
+        // T, evento Numero, NS, 
+        System.out.println("Tiempo: " + simulacion.getTiempoActual());
+        System.out.println("Evento numero: " + idEvento);
+        System.out.println("NS Highest: " + simulacion.getNSH());
+        System.out.println("NS High: " + simulacion.getNSH());
+        System.out.println("NS Medium: " + simulacion.getNSM());
+        System.out.println("NS Low: " + simulacion.getNSL());
+        System.out.println("NS Total: " + simulacion.sumNs());
     }
 
     public static void fijarCondicionesIniciales(){

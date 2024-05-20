@@ -40,7 +40,7 @@ public class Desarrollador {
         TPS = nuevoTPS;
 
         ticket.setStatus(Status.IN_PROGRESS);
-        ticket.setReadyTime(tiempoActual);
+        ticket.setInProgressTime(tiempoActual);
         lastTicket = ticket;
     }
 

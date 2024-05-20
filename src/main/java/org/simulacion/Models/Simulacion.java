@@ -135,6 +135,10 @@ public class Simulacion {
         }
     }
 
+    public int getN() {
+        return N;
+    }
+
     public double getTiempoDeActualizacion() {
         return TiempoDeActualizacion;
     }
@@ -227,6 +231,6 @@ public class Simulacion {
                 .flatMap(des -> des.getResueltos().stream())
                 .collect(Collectors.toList());
         double nsResueltos = tickets.size();
-        return tickets.stream().mapToDouble(ticket -> ticket.getDesfase()).sum() / nsResueltos;
+        return tickets.stream().mapToDouble(ticket -> ticket.getDesfase()).sum() / NT;
     }
 }

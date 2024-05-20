@@ -12,7 +12,7 @@ import java.net.http.HttpResponse;
 public class IA {
 
     public static double calculate() throws IOException, InterruptedException {
-        HttpClient httpClient = HttpClient.newBuilder().build();
+        HttpClient httpClient = Client.getHttpClient();
         URI url = URI.create("http://127.0.0.1:5000/IA");
 
         HttpRequest request = HttpRequest.newBuilder()

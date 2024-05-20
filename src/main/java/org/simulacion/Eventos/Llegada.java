@@ -21,7 +21,7 @@ public class Llegada extends Evento {
             Ticket nuevoTicket = new Ticket();
             nuevoTicket.setCreatedTime(Simulacion.getInstance().getTiempoActual());
             nuevoTicket.setStatus(Status.OPEN);
-            nuevoTicket.setVotes(PT.calculate());
+            nuevoTicket.setVotes(Math.ceil(PT.calculate()));
 
             // TODO: Elegir un criterio para asignar prioridad, por ejemplo: ver el % de tickets de cada status en el dataset
             double random = Math.random();

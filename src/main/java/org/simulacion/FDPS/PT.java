@@ -12,14 +12,14 @@ import java.net.http.HttpResponse;
 public class PT {
 
     public static double calculate() throws IOException, InterruptedException {
-        HttpClient httpClient = HttpClient.newBuilder().build();
+        HttpClient httpClient = Client.getHttpClient();
         URI url = URI.create("http://127.0.0.1:5000/PT");
 
         HttpRequest request = HttpRequest.newBuilder()
-                .uri(url)
-                .GET()
-                .header("Content-Type", "application/json")
-                .build();
+            .uri(url)
+            .GET()
+            .header("Content-Type", "application/json")
+            .build();
 
         HttpResponse<String> response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
         ObjectMapper objectMapper = new ObjectMapper();

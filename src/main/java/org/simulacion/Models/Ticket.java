@@ -13,7 +13,7 @@ public class Ticket {
     private Status status;
     private Priority priority;
     private double createdTime;
-    private double readyTime;
+    private double inProgressTime;
     private double resolvedTime;
     private String components;
     private double votes;
@@ -92,12 +92,12 @@ public class Ticket {
         this.createdTime = createdTime;
     }
 
-    public double getReadyTime() {
-        return readyTime;
+    public double getInProgressTime() {
+        return inProgressTime;
     }
 
-    public void setReadyTime(double readyTime) {
-        this.readyTime = readyTime;
+    public void setInProgressTime(double readyTime) {
+        this.inProgressTime = readyTime;
     }
 
     public double getResolvedTime() {
@@ -109,9 +109,9 @@ public class Ticket {
     }
 
     public double getDesfase(){
-        double tiempoDeResolucionReal = resolvedTime - readyTime;
+        double tiempoDeResolucionReal = resolvedTime - inProgressTime;
         double tiempoDeResolucionEstimado = votes*Simulacion.getInstance().getValorEstimacion();
-        return Math.abs(tiempoDeResolucionReal - tiempoDeResolucionEstimado);
+        return tiempoDeResolucionReal - tiempoDeResolucionEstimado;
     }
 
     public boolean shouldUPPriority(){

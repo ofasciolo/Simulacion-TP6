@@ -1,5 +1,6 @@
 package org.simulacion;
 
+import org.simulacion.Eventos.Actualizacion;
 import org.simulacion.Eventos.Evento;
 import org.simulacion.Eventos.Llegada;
 import org.simulacion.Models.Simulacion;
@@ -8,7 +9,7 @@ import java.util.ArrayList;
 
 public class Backlog {
 
-    public static double instanteFinal = 60*24*7; //60*24*365*2;
+    public static double instanteFinal = 60*24*365*20; //60*24*365*2;
     public static Evento eventoActual;
     private static Simulacion simulacion = Simulacion.getInstance();
     public static ArrayList<Evento> eventosFuturos = Simulacion.eventosFuturos;
@@ -33,7 +34,9 @@ public class Backlog {
 
     public static void iniciarSimulacion(){
         Llegada llegada = new Llegada(0);
+        Actualizacion actualizacion = new Actualizacion(simulacion.getTiempoDeActualizacion());
         simulacion.eventosFuturos.add(llegada);
+        simulacion.eventosFuturos.add(actualizacion);
     }
 
     public static void imprimirInformacionActual(){
@@ -49,9 +52,9 @@ public class Backlog {
     }
 
     public static void fijarCondicionesIniciales(){
-        simulacion.setVariableControl(10);
-        simulacion.setTiempoDeActualizacion(4320.0); //3 dias
-        simulacion.setValorEstimacion(480); //8 horas (no habiles necesariamente)
+        simulacion.setVariableControl(5);
+        simulacion.setTiempoDeActualizacion(60*24*2);
+        simulacion.setValorEstimacion(60*12);
     }
 
     public static Evento getProximoEvento(){
@@ -73,7 +76,12 @@ public class Backlog {
     }
 
     public static void calculoEImpresionDeResultados(){
-        // Creo que aca se calcula el promedio de desfasaje
+        // Imprimo variables de control
+        System.out.println("Numero de desarrolladores (N): " + simulacion.getN());
+        System.out.println("Tiempo de actualizacion (TiempoDeActualizacion): " + simulacion.getTiempoDeActualizacion());
+        System.out.println("Valor de estimacion (valorEstimacion): " + simulacion.getValorEstimacion());
+
+        System.out.println("");
         System.out.println("Numero de tickets en el sistema (NT): " + simulacion.getNT());
         double pps = simulacion.getSPS()/simulacion.getNT() /60/24;
         System.out.println("Tiempo promedio de permanencia en el sistema de los tickets (PPS): " + pps + " dias");

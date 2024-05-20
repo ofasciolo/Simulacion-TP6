@@ -88,8 +88,8 @@ public class Simulacion {
         return NT;
     }
     
-    public void setNT(int NT) {
-        this.NT = NT;
+    public void addNT() {
+        this.NT = NT+1;
     }
     
     public double getSPS() {
@@ -222,7 +222,11 @@ public class Simulacion {
         NSH = new LinkedList(ticketsLeft);
     }
 
-    public void setQueue(Queue<Ticket> queue, List<Ticket> tickets){
-        queue = new LinkedList(tickets);
+    public double getPromedioDeDesfases(){
+        List<Ticket> tickets = desarrolladores.stream()
+                .flatMap(des -> des.getResueltos().stream())
+                .collect(Collectors.toList());
+        double nsResueltos = tickets.size();
+        return tickets.stream().mapToDouble(ticket -> ticket.getDesfase()).sum() / nsResueltos;
     }
 }

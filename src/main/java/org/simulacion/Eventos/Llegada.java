@@ -1,6 +1,5 @@
 package org.simulacion.Eventos;
 import java.util.ArrayList;
-import java.util.Queue;
 
 import org.simulacion.FDPS.IA;
 import org.simulacion.FDPS.TR;
@@ -29,8 +28,8 @@ public class Llegada extends Evento {
             Priority priority = (random < 0.021)? Priority.HIGHEST : (random < (0.0336+0.021)) ? Priority.HIGH : (random < (0.0252+0.0336+0.021)) ? Priority.MEDIUM : Priority.LOW;
             
             nuevoTicket.setPriority(priority);
-            Queue<Ticket> queue = Priority.getQueueByPriority(priority);
-            queue.add(nuevoTicket);
+            Priority.getQueueByPriority(priority).add(nuevoTicket);
+            Simulacion.getInstance().addNT();
         }catch (Exception e){}
     }
 

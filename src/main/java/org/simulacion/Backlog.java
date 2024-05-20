@@ -8,7 +8,7 @@ import java.util.ArrayList;
 
 public class Backlog {
 
-    public static double instanteFinal = 60*24; //60*24*365*2;
+    public static double instanteFinal = 60*24*7; //60*24*365*2;
     public static Evento eventoActual;
     private static Simulacion simulacion = Simulacion.getInstance();
     public static ArrayList<Evento> eventosFuturos = Simulacion.eventosFuturos;
@@ -28,8 +28,7 @@ public class Backlog {
             imprimirInformacionActual();
             idEvento++;
         }
-        calcularResultados();
-        imprimirResultados();
+        calculoEImpresionDeResultados();
     }
 
     public static void iniciarSimulacion(){
@@ -73,14 +72,15 @@ public class Backlog {
         return simulacion.getTiempoActual() >= instanteFinal;
     }
 
-    public static void calcularResultados(){
-
-    }
-
-    public static void imprimirResultados(){
+    public static void calculoEImpresionDeResultados(){
         // Creo que aca se calcula el promedio de desfasaje
-        System.out.println("Tiempo promedio de permanencia en el sistema de los tickets (PPS): " + simulacion.getSPS());
-        System.out.println("Promedio de tickets resueltos por semana (PTS): " + simulacion.getSTRS());
-        System.out.println("Promedio de desfase de ticket (PDT): " + simulacion.getSTD());
+        System.out.println("Numero de tickets en el sistema (NT): " + simulacion.getNT());
+        double pps = simulacion.getSPS()/simulacion.getNT() /60/24;
+        System.out.println("Tiempo promedio de permanencia en el sistema de los tickets (PPS): " + pps + " dias");
+        double cantidadSemanas = simulacion.getTiempoActual()/(60*24*7);
+        double pts = simulacion.getNT()/cantidadSemanas;
+        System.out.println("Promedio de tickets resueltos por semana (PTS): " + pts);
+        double pdt = simulacion.getPromedioDeDesfases() /60;
+        System.out.println("Promedio de desfase de ticket (PDT): " + pdt + " horas");
     }
 }

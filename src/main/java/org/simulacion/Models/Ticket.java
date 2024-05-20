@@ -108,10 +108,10 @@ public class Ticket {
         this.resolvedTime = resolvedTime;
     }
 
-    public double desfasaje(){
-        double tr = resolvedTime - createdTime;
-        double estimatedTime = votes*Simulacion.getInstance().getValorEstimacion();
-        return Math.abs(tr - estimatedTime);
+    public double getDesfase(){
+        double tiempoDeResolucionReal = resolvedTime - readyTime;
+        double tiempoDeResolucionEstimado = votes*Simulacion.getInstance().getValorEstimacion();
+        return Math.abs(tiempoDeResolucionReal - tiempoDeResolucionEstimado);
     }
 
     public boolean shouldUPPriority(){

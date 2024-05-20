@@ -6,16 +6,21 @@ import java.util.Queue;
 import org.simulacion.Models.Enum.Status;
 
 import java.util.LinkedList;
+import java.util.List;
 
 public class Desarrollador {
 
     public double TPS;
     private Ticket lastTicket;
-    private Queue<Ticket> Resueltos; // Cola tickets resueltos
+    private List<Ticket> Resueltos; // Cola tickets resueltos
     
     public Desarrollador() {
         this.Resueltos = new LinkedList<Ticket>();
         this.TPS = 0.0;
+    }
+
+    public List<Ticket> getResueltos() {
+        return Resueltos;
     }
 
     public void tomarTicket(Ticket ticket, double nuevoTPS) {
@@ -23,8 +28,13 @@ public class Desarrollador {
         if(Objects.nonNull(lastTicket)){
 
             lastTicket.setStatus(Status.CLOSED);
-            ticket.setResolvedTime(tiempoActual);
+            lastTicket.setResolvedTime(tiempoActual);
             Resueltos.add(lastTicket);
+
+            // Update sps
+            double tiempoPermanencia = lastTicket.getResolvedTime() - lastTicket.getCreatedTime();
+            double sps = Simulacion.getInstance().getSPS() + tiempoPermanencia;
+            Simulacion.getInstance().setSPS(sps);
         }
 
         TPS = nuevoTPS;

@@ -14,7 +14,6 @@ public abstract class Evento {
         return instante;
     }
     public abstract void actualizarVectorDeEstado();
-    // public abstract void actualizarVariableEstado();
     public abstract ArrayList<Evento> eventosFuturosNoCondicionados();
     public abstract ArrayList<Evento> eventosFuturosCondicionados();
 

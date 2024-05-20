@@ -3,6 +3,7 @@ package org.simulacion.Models;
 import org.simulacion.Models.Enum.Priority;
 import org.simulacion.Models.Enum.Status;
 
+import java.security.Timestamp;
 import java.util.Date;
 
 public class Ticket {
@@ -11,13 +12,11 @@ public class Ticket {
     private String type;
     private Status status;
     private Priority priority;
-    private Date createdDate;
-    private Date updatedDate;
-    private Date lastViewedDate;
-    private Date resolutionDate;
-    private Date firstResponseDate;
+    private double createdTime;
+    private double inProgressTime;
+    private double resolvedTime;
     private String components;
-    private Integer votes;
+    private double votes;
     private String severity;
 
 
@@ -61,46 +60,6 @@ public class Ticket {
         this.priority = priority;
     }
 
-    public Date getCreatedDate() {
-        return createdDate;
-    }
-
-    public void setCreatedDate(Date createdDate) {
-        this.createdDate = createdDate;
-    }
-
-    public Date getUpdatedDate() {
-        return updatedDate;
-    }
-
-    public void setUpdatedDate(Date updatedDate) {
-        this.updatedDate = updatedDate;
-    }
-
-    public Date getLastViewedDate() {
-        return lastViewedDate;
-    }
-
-    public void setLastViewedDate(Date lastViewedDate) {
-        this.lastViewedDate = lastViewedDate;
-    }
-
-    public Date getResolutionDate() {
-        return resolutionDate;
-    }
-
-    public void setResolutionDate(Date resolutionDate) {
-        this.resolutionDate = resolutionDate;
-    }
-
-    public Date getFirstResponseDate() {
-        return firstResponseDate;
-    }
-
-    public void setFirstResponseDate(Date firstResponseDate) {
-        this.firstResponseDate = firstResponseDate;
-    }
-
     public String getComponents() {
         return components;
     }
@@ -109,11 +68,11 @@ public class Ticket {
         this.components = components;
     }
 
-    public Integer getVotes() {
+    public double getVotes() {
         return votes;
     }
 
-    public void setVotes(Integer votes) {
+    public void setVotes(double votes) {
         this.votes = votes;
     }
 
@@ -123,5 +82,41 @@ public class Ticket {
 
     public void setSeverity(String severity) {
         this.severity = severity;
+    }
+
+    public double getCreatedTime() {
+        return createdTime;
+    }
+
+    public void setCreatedTime(double createdTime) {
+        this.createdTime = createdTime;
+    }
+
+    public double getInProgressTime() {
+        return inProgressTime;
+    }
+
+    public void setInProgressTime(double readyTime) {
+        this.inProgressTime = readyTime;
+    }
+
+    public double getResolvedTime() {
+        return resolvedTime;
+    }
+
+    public void setResolvedTime(double resolvedTime) {
+        this.resolvedTime = resolvedTime;
+    }
+
+    public double getDesfase(){
+        double tiempoDeResolucionReal = resolvedTime - inProgressTime;
+        double tiempoDeResolucionEstimado = votes*Simulacion.getInstance().getValorEstimacion();
+        return tiempoDeResolucionReal - tiempoDeResolucionEstimado;
+    }
+
+    public boolean shouldUPPriority(){
+        double tiempoEstimado = votes*Simulacion.getInstance().getValorEstimacion();
+        double tiempoTranscurridoEnBacklog =  Simulacion.getInstance().getTiempoActual() - createdTime;
+        return tiempoTranscurridoEnBacklog >= tiempoEstimado;
     }
 }

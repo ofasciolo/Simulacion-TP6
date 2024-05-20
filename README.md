@@ -18,7 +18,6 @@ A través de este análisis detallado, la empresa podrá determinar el número i
 
 Exógenas de Datos:
   * **Intervalo entre arribos de tickets (IA)**: Se registrará el tiempo entre la llegada de cada ticket al backlog del proyecto. 
-  * **Tiempo de espera en backlog (TB)**: Tiempo que se tarda en promedio en tomar un ticket.
   * **Tiempo de resolución de un ticket (TR)**: Se anotará el tiempo necesario para resolver cada ticket del backlog del proyecto.
   * **Puntaje del ticket (PT)**: Estimación del tiempo que demorara en ser completado el ticket.
 

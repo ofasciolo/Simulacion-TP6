@@ -5,36 +5,42 @@ import java.util.Queue;
 
 import org.simulacion.Models.Enum.Status;
 
-import java.util.Date;
 import java.util.LinkedList;
+import java.util.List;
 
 public class Desarrollador {
 
     public double TPS;
     private Ticket lastTicket;
-    private Queue<Ticket> Resueltos; // Cola tickets resueltos
+    private List<Ticket> Resueltos; // Cola tickets resueltos
     
     public Desarrollador() {
         this.Resueltos = new LinkedList<Ticket>();
         this.TPS = 0.0;
     }
 
+    public List<Ticket> getResueltos() {
+        return Resueltos;
+    }
+
     public void tomarTicket(Ticket ticket, double nuevoTPS) {
+        double tiempoActual = Simulacion.getInstance().getTiempoActual();
         if(Objects.nonNull(lastTicket)){
+
             lastTicket.setStatus(Status.CLOSED);
-            ticket.setUpdatedDate(new Date());
-            ticket.setLastViewedDate(new Date());
-            ticket.setResolutionDate(new Date());
+            lastTicket.setResolvedTime(tiempoActual);
             Resueltos.add(lastTicket);
+
+            // Update sps
+            double tiempoPermanencia = lastTicket.getResolvedTime() - lastTicket.getCreatedTime();
+            double sps = Simulacion.getInstance().getSPS() + tiempoPermanencia;
+            Simulacion.getInstance().setSPS(sps);
         }
 
         TPS = nuevoTPS;
 
-        // TODO: Revisar si estar fechas estan bien, las puso copilot
         ticket.setStatus(Status.IN_PROGRESS);
-        ticket.setUpdatedDate(new Date());
-        ticket.setLastViewedDate(new Date());
-        ticket.setFirstResponseDate(new Date());
+        ticket.setInProgressTime(tiempoActual);
         lastTicket = ticket;
     }
 

@@ -9,22 +9,24 @@ import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 
-public class TB {
+public class PT {
+
     public static double calculate() throws IOException, InterruptedException {
-        HttpClient httpClient = HttpClient.newBuilder().build();
-        URI url = URI.create("http://127.0.0.1:5000/TB");
+        HttpClient httpClient = Client.getHttpClient();
+        URI url = URI.create("http://127.0.0.1:5000/PT");
 
         HttpRequest request = HttpRequest.newBuilder()
-                .uri(url)
-                .GET()
-                .header("Content-Type", "application/json")
-                .build();
+            .uri(url)
+            .GET()
+            .header("Content-Type", "application/json")
+            .build();
 
         HttpResponse<String> response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
         ObjectMapper objectMapper = new ObjectMapper();
 
-        Response tiempoBacklog = objectMapper.readValue(response.body(), new TypeReference<Response>(){});
+        Response puntajeTicket = objectMapper.readValue(response.body(), new TypeReference<Response>(){});
 
-        return tiempoBacklog.getValue();
+        return puntajeTicket.getValue();
     }
+
 }

@@ -88,8 +88,8 @@ public class Simulacion {
         return NT;
     }
     
-    public void setNT(int NT) {
-        this.NT = NT;
+    public void addNT() {
+        this.NT = NT+1;
     }
     
     public double getSPS() {
@@ -133,6 +133,10 @@ public class Simulacion {
         for (int i = 0; i < N; i++) {
             desarrolladores.add(new Desarrollador());
         }
+    }
+
+    public int getN() {
+        return N;
     }
 
     public double getTiempoDeActualizacion() {
@@ -195,7 +199,7 @@ public class Simulacion {
         double minTPS = desarrolladores.get(0).TPS;
         
         for (Desarrollador desarrollador : desarrolladores) {
-            if (desarrollador.TPS < minTPS) {
+            if (desarrollador.TPS <= minTPS) {
                 minTPS = desarrollador.TPS;
                 proximoDesarrolladorLibre = desarrollador;
             }
@@ -205,14 +209,8 @@ public class Simulacion {
     }
 
     public List<Ticket> getTicketsViejos(Queue<Ticket> colaPrioridad){
-        List<Ticket> ticketsViejos = colaPrioridad.stream().filter(ticket -> isOld(ticket)).collect(Collectors.toList());
+        List<Ticket> ticketsViejos = colaPrioridad.stream().filter(ticket -> ticket.shouldUPPriority()).collect(Collectors.toList());
         return ticketsViejos;
-    }
-
-    private boolean isOld(Ticket ticket) {
-        long diffInMillies = Math.abs(new Date().getTime() - ticket.getCreatedDate().getTime());
-        long diff = TimeUnit.MINUTES.convert(diffInMillies, TimeUnit.MILLISECONDS);
-        return diff >= (long)ticket.getVotes()*valorEstimacion;
     }
 
     public void sacarLowTickets(List<Ticket> ticketsViejos){
@@ -226,5 +224,13 @@ public class Simulacion {
     public void sacarHighTickets(List<Ticket> ticketsViejos){
         List<Ticket> ticketsLeft = NSH.stream().filter(ticket -> !ticketsViejos.contains(ticket)).collect(Collectors.toList());
         NSH = new LinkedList(ticketsLeft);
+    }
+
+    public double getPromedioDeDesfases(){
+        List<Ticket> tickets = desarrolladores.stream()
+                .flatMap(des -> des.getResueltos().stream())
+                .collect(Collectors.toList());
+        double nsResueltos = tickets.size();
+        return tickets.stream().mapToDouble(ticket -> ticket.getDesfase()).sum() / NT;
     }
 }

@@ -1,4 +1,7 @@
 <em>TP 6 - Análisis previo - Grupo 2</em>
+
+[Link al Colab](https://colab.research.google.com/drive/13ophWtBq0CspsSO9EDsb7cTMNvIO5IVI?usp=sharing)
+---
 <h1>Estudio de una simulación para averiguar la cantidad de desarrolladores y la frecuencia óptima de actualización de prioridades, para un proyecto con tareas de diferente prioridad</h1>
 
 Una empresa en desarrollo de software está en proceso de planificación para un nuevo proyecto de gran envergadura. Con el objetivo de optimizar la eficiencia del equipo asignado a este proyecto, se propone realizar un análisis con datos del avance de otros proyectos. Se busca determinar el número óptimo de integrantes del equipo y establecer un sistema eficiente de gestión de tickets para garantizar un flujo de trabajo eficiente.
